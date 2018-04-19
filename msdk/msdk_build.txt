@@ -1,0 +1,56 @@
+Hi Jianfeng, 
+Please study how to do msdk build and related test tools build;  we can enable this in the Docker. 
+Development Process
+ 
+•	Access to the Source Code, File Shares, etc:
+https://wiki.ith.intel.com/display/MediaSDK/Media+SDK+Resources
+•	Branching Strategy:
+https://wiki.ith.intel.com/display/MediaSDK/Branching+strategy
+•	How to build Media SDK on Linux:
+https://wiki.ith.intel.com/display/MediaSDK/Building+Media+SDK+on+Linux (manually)
+https://wiki.ith.intel.com/display/MediaSDK/Teamcity+Release+builds
+https://wiki.ith.intel.com/display/MediaSDK/MSS+Packaging
+•	How to install MediaSDK (Kozlov TBD)
+
+
+Long, please complete PV4 HF1 tasks, and you also can switch to this msdk build with Jianfeng. 
+
+
+
+MSDK build as follows: 
+I have branched out MSDK mdp projects to local dcgm git projects https://tf-amr-1.devtools.intel.com/sf/scm/do/listRepositories/projects.dcgm/scm :
+
+Projects:
+msdk-api
+msdk-contrib
+msdk-hevc-stream-generator
+msdk-lib
+msdk-samples
+msdk-tools
+msdk-val-tools
+msdk-tests
+
+How to build:
+(1)	Download all the projects in one directory by git clone
+(2)	Copy dcgm-msdk-tools/init_dcgm.sh to the parent directory (commit is https://git-ccr-1.devtools.intel.com/gerrit/#/c/48937/ )
+(3)	Run the following command to build in root access:
+source init_dcgm.sh
+make 16_4_4_HF_debug
+make 16_4_4_HF_release
+make 16_5_PV1_debug
+make 16_5_PV1_release
+make 16_5_HF_debug
+make 16_5_HF_release
+make sample_debug
+make sample_release
+
+Then you can get the release/debug build of libmfx and sample tool for 16.4.4HF/16.5PV1/16.5HF.
+
+Note:
+(1)	We still use 16.4.4_Hotfix1(not 16.4.4_Hotfix1_build) as build branch for 16.4.4HF. Because we have made confirmation with MSDK team. These commits should be right for the version. So don’t use 16.4.4_Hotfix1_build.
+(2)	If you met some build error in 16.4.4_Hotfix1, it is normal and explained by Oleg(MSDK team member) and you can still get all the lib for libmfx/sample tool.
+
+Purpose:
+(1)	We can debug on the right version of MSDK and see the effect of our patches immediately.
+(2)	We can do local full test before we upload our patch to MSDK.
+
